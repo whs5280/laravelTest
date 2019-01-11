@@ -15,10 +15,14 @@ class InfoController extends BaseController
      * 全部信息
      */
     public function index(Request $request){
-        $infos = Info::paginate(20);
         $export = $request->input("export", "");
         $add = $request->input("add", "");
 
+        if ($export === 'xls'){
+            $infos = Info::all();
+        }else{
+            $infos = Info::paginate(20);
+        }
         //批量添加(200)
         if ($add === 'add'){
             $this->batch_add();
@@ -55,7 +59,7 @@ class InfoController extends BaseController
      * 批量增加数据
      */
     public function batch_add(){
-        
+
         $date = date("Y-m-d H:i:s");
         $all_array = [];
         $add_array = [
@@ -111,6 +115,7 @@ class InfoController extends BaseController
         if ($import === 'xls'){
             Import::import();
         }
+
     }
 
 }

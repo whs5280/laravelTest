@@ -37,8 +37,13 @@
                 </table>
             </div>
             </form>
-            <div>
-                {{ $infos->links() }}
+            <div class="row">
+                <div class="col-sm-12 col-md-5">
+                    Total <strong>{{ $infos->total() }}</strong>
+                </div>
+                <div class="col-sm-12 col-md-7">
+                    {{ $infos->links() }}
+                </div>
             </div>
         </div>
     </body>

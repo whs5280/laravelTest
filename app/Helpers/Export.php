@@ -6,7 +6,7 @@
 namespace App\Helpers;
 
 class Export{
-    private static function excelHeader($fields, $filename, $unset = []) {
+    private static function excelHeader($fields, $filename) {
         header('Content-type:application/octet-stream');
         header('Accept-Ranges:bytes');
         header('Content-type:application/vnd.ms-excel');
@@ -16,27 +16,21 @@ class Export{
 
         // 导出xls 开始
         foreach ($fields as $field => $val) {
-            if (in_array($field, $unset)){
-                continue;
-            }
             echo iconv('UTF-8', 'GB2312//ignore', strtr(strip_tags($val), array('<br/>' => ' '))) . "\t";
         }
         echo "\n";
     }
 
-    public static function excel($fields, $list, $header = true, $filename = 'export', $unset = [], $convert = []) {
+    public static function excel($fields, $list, $header = true, $filename = 'export', $convert = []) {
         set_time_limit(0);
         if ($header) {
-            self::excelHeader($fields, $filename, $unset);
+            self::excelHeader($fields, $filename);
         }
 
         $t = "\t";
         foreach ($list as $key => $val) {
             $content = '';
             foreach ($fields as $field => $v) {
-                if (in_array($field, $unset)) {
-                    continue;
-                }
                 if (isset($val[$field])) {
                     $val[$field] = strip_tags($val[$field]);
                     if (is_numeric($val[$field]) || !$val[$field]) {

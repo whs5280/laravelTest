@@ -8,6 +8,7 @@
         <div class="container">
             <form method="get">
             <div class="m-3">
+                <button type="submit" class="btn btn-outline-dark" name="add" value="add">批量添加</button>
                 <button type="submit" class="btn btn-outline-info" name="import" value="xls">导入</button>
                 <button type="submit" class="btn btn-outline-success" name="export" value="xls">导出</button>
             </div>
@@ -36,6 +37,9 @@
                 </table>
             </div>
             </form>
+            <div>
+                {{ $infos->links() }}
+            </div>
         </div>
     </body>
 </html>

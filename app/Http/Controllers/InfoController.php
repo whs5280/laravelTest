@@ -15,8 +15,15 @@ class InfoController extends BaseController
      * 全部信息
      */
     public function index(Request $request){
-        $infos = Info::all();
+        $infos = Info::paginate(20);
         $export = $request->input("export", "");
+        $add = $request->input("add", "");
+
+        //批量添加(200)
+        if ($add === 'add'){
+            $this->batch_add();
+        }
+
         //导出数据
         if ($export === 'xls'){
             $header = [
@@ -42,6 +49,28 @@ class InfoController extends BaseController
         //$info = DB::table('infos')->where('id',$id)->first();
         $info = Info::where('id',$id)->first();
         return view('detail',compact('info'));
+    }
+
+    /*
+     * 批量增加数据
+     */
+    public function batch_add(){
+        
+        $date = date("Y-m-d H:i:s");
+        $all_array = [];
+        $add_array = [
+            'title' => 'test',
+            'content' => '这是一个新的数据',
+            'author' => 'mobpower',
+            'time' => $date,
+        ];
+        for ($i = 1; $i <= 200; $i++){
+            array_push($all_array,$add_array);
+        }
+        $result = DB::table('infos')->insert($all_array);
+        if (!$result){
+            DB::rollBack();
+        }
     }
 
     /*

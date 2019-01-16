@@ -21,5 +21,6 @@ Route::get('/info','InfoController@index');
 Route::get('/info/detail/{id}','InfoController@detail');
 Route::get('/info/detele/{id}','InfoController@detele');
 Route::get('/info/editor/{id}','InfoController@editor');
+Route::get('/order','OrderController@index');
 
 

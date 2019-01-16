@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Import;
 use App\Info;
+use function foo\func;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\Export;
+use Maatwebsite\Excel\Excel;
 
 class InfoController extends BaseController
 {
@@ -50,7 +52,6 @@ class InfoController extends BaseController
      * 单个信息
      */
     public function detail($id){
-        //$info = DB::table('infos')->where('id',$id)->first();
         $info = Info::where('id',$id)->first();
         return view('detail',compact('info'));
     }
@@ -111,11 +112,19 @@ class InfoController extends BaseController
      * import
      */
     public function import(Request $request){
-        $import = $request->input("import", "");
-        if ($import === 'xls'){
-            Import::import();
+        if(!$request->hasFile('file')){
+            exit('上传文件为空！');
         }
+        $filePath = '';
+        //获取上传文件
+        $res = [];
+        Excel::load($filePath ,function ($reader){
+            $reader = $reader->all();
+            $res = $reader->toArray();
+            $result = DB::table('infos')->insert($res);
+        });
 
+        return Redirect::to('/info')->withSuccess('导入成功');
     }
 
 }

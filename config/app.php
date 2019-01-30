@@ -161,7 +161,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         //export
         Maatwebsite\Excel\ExcelServiceProvider::class,
-
+        Yansongda\LaravelPay\PayServiceProvider::class,
     ],
 
     /*
@@ -211,6 +211,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Pay' => Yansongda\LaravelPay\Facades\Pay::class,
     ],
 
 ];
